@@ -1,0 +1,169 @@
+<Window x:Class="Baymax.Desktop.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Baymax Settings" Height="900" Width="820"
+        MinHeight="700" MinWidth="700"
+        WindowStartupLocation="CenterOwner"
+        Background="#F3F6FB">
+    <Window.Resources>
+        <SolidColorBrush x:Key="NavyBrush" Color="#15233B"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="#2563EB"/>
+        <SolidColorBrush x:Key="MutedBrush" Color="#64748B"/>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderBrush" Value="#CBD5E1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style TargetType="ToggleButton">
+            <Setter Property="Padding" Value="14,7"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinWidth" Value="104"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{StaticResource NavyBrush}" Padding="24,18">
+            <StackPanel>
+                <TextBlock Text="Settings" Foreground="White" FontSize="22" FontWeight="Bold"/>
+                <TextBlock Text="Configure Baymax services, then start or restart the host."
+                           Foreground="#C5D2E5" FontSize="13" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="24,20">
+                <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                        CornerRadius="10" Padding="20" Margin="0,0,0,16">
+                    <StackPanel>
+                        <TextBlock Text="Workspace and permissions" FontSize="17" FontWeight="SemiBold"
+                                   Foreground="#172033" Margin="0,0,0,12"/>
+                        <TextBlock Text="Baymax can access only this folder. Choose an existing folder; its contents remain subject to your Windows account permissions."
+                                   Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,0,0,12"/>
+                        <DockPanel Margin="0,0,0,14">
+                            <Button x:Name="BrowseWorkspaceButton" DockPanel.Dock="Right"
+                                    Content="Choose folder..." Click="BrowseWorkspaceButton_Click"/>
+                            <TextBox x:Name="WorkspacePathTextBox" Margin="0,0,8,0" IsReadOnly="True"/>
+                        </DockPanel>
+                        <TextBlock Text="Allowed actions" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <StackPanel>
+                            <CheckBox x:Name="ReadPermissionCheckBox" Content="Read files and folders"
+                                      Margin="0,0,0,6"/>
+                            <CheckBox x:Name="WritePermissionCheckBox" Content="Create, edit, copy, move, rename, and create folders"
+                                      Margin="0,0,0,6"/>
+                            <CheckBox x:Name="ExecutePermissionCheckBox" Content="Execute reviewed Baymax file plans"
+                                      Margin="0,0,0,6"/>
+                        </StackPanel>
+                        <TextBlock Text="Copying files requires both Read and Write permissions."
+                                   Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,0,0,6"/>
+                        <TextBlock Text="Execution always requires reviewing the plan and a separate Windows-authenticated approval. This does not enable shell commands, arbitrary programs, or MCP tools."
+                                   Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                        CornerRadius="10" Padding="20" Margin="0,0,0,16">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,12">
+                            <TextBlock Text="Android pairing" FontSize="17" FontWeight="SemiBold"
+                                       Foreground="#172033" VerticalAlignment="Center"/>
+                            <ToggleButton x:Name="AndroidPairingToggleButton" DockPanel.Dock="Right"
+                                          IsChecked="False" Content="Disabled"
+                                          Checked="AndroidPairingToggleButton_Changed"
+                                          Unchecked="AndroidPairingToggleButton_Changed"/>
+                        </DockPanel>
+                        <TextBlock Text="When enabled, Baymax listens only on this private Wi-Fi IPv4 address. The main API remains on loopback."
+                                   Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,0,0,14"/>
+                        <StackPanel x:Name="AndroidPairingFields">
+                            <TextBlock Text="PC Wi-Fi IPv4 bind address" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                            <TextBox x:Name="MobileBindAddressTextBox" ToolTip="Example: 192.168.1.25"/>
+                            <TextBlock Text="Mobile HTTPS port" FontWeight="SemiBold" Margin="0,12,0,5"/>
+                            <TextBox x:Name="MobilePortTextBox" ToolTip="Default: 5081"/>
+                            <CheckBox x:Name="MobileDirectExecutionCheckBox"
+                                      Content="Allow paired Android devices to execute workspace tasks directly"
+                                      Margin="0,14,0,5"/>
+                            <TextBlock Text="When enabled, submitting a task from a paired phone is authorization to run it without a Windows confirmation. Actions remain limited to the selected workspace: read, create new files/folders, and non-overwriting copies. Move, rename, replace, append, shell commands, and arbitrary programs are not allowed."
+                                       Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                        CornerRadius="10" Padding="20" Margin="0,0,0,16">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,12">
+                            <TextBlock Text="Local llama.cpp model" FontSize="17" FontWeight="SemiBold"
+                                       Foreground="#172033" VerticalAlignment="Center"/>
+                            <ToggleButton x:Name="LlamaCppToggleButton" DockPanel.Dock="Right"
+                                          IsChecked="False" Content="Disabled"
+                                          Checked="LlamaCppToggleButton_Changed"
+                                          Unchecked="LlamaCppToggleButton_Changed"/>
+                        </DockPanel>
+                        <TextBlock Text="When enabled, Baymax starts and supervises llama.cpp when the host starts."
+                                   Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,0,0,14"/>
+                        <StackPanel x:Name="LlamaCppFields">
+                            <TextBlock Text="llama.cpp server executable" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                            <DockPanel>
+                                <Button DockPanel.Dock="Right" Content="Browse..." Click="BrowseExecutableButton_Click"/>
+                                <TextBox x:Name="ExecutablePathTextBox" Margin="0,0,8,0"/>
+                            </DockPanel>
+                            <TextBlock Text="GGUF model file" FontWeight="SemiBold" Margin="0,12,0,5"/>
+                            <DockPanel>
+                                <Button DockPanel.Dock="Right" Content="Browse..." Click="BrowseModelButton_Click"/>
+                                <TextBox x:Name="ModelPathTextBox" Margin="0,0,8,0"/>
+                            </DockPanel>
+                            <Grid Margin="0,12,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="llama.cpp port" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="LlamaCppPortTextBox" ToolTip="Default: 8081"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="GPU layers (optional)" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="GpuLayersTextBox" ToolTip="Default: 99; leave blank for llama.cpp default"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                        <TextBlock Text="Verify downloads using the publisher’s checksums before selecting them. Baymax also checks SHA-256 file integrity before launch."
+                                   Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,14,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock x:Name="SettingsStatusText" Foreground="{StaticResource MutedBrush}"
+                           TextWrapping="Wrap" Margin="2,0,0,8"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Background="#E8EDF5" Padding="18,12">
+            <DockPanel>
+                <Button x:Name="StopBaymaxButton" DockPanel.Dock="Left" Content="Stop Baymax"
+                        Click="StopBaymaxButton_Click"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Close" Click="CloseButton_Click"/>
+                    <Button x:Name="ApplyStartButton" Content="Save &amp; Start Baymax"
+                            Background="{StaticResource AccentBrush}" Foreground="White"
+                            BorderBrush="{StaticResource AccentBrush}" Click="ApplyStartButton_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

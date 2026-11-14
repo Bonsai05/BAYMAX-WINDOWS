@@ -1,0 +1,93 @@
+<Window x:Class="Baymax.Desktop.PairingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Pair Android device" Height="760" Width="980"
+        MinHeight="650" MinWidth="820"
+        Background="#F3F6FB"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
+    <Window.Resources>
+        <SolidColorBrush x:Key="NavyBrush" Color="#15233B"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="#2563EB"/>
+        <SolidColorBrush x:Key="MutedBrush" Color="#64748B"/>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="12,7"/>
+            <Setter Property="Margin" Value="0,0,7,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="{StaticResource NavyBrush}" Padding="22,16">
+            <StackPanel>
+                <TextBlock Text="Pair an Android device" Foreground="White" FontSize="21" FontWeight="Bold"/>
+                <TextBlock Text="Scan this temporary code, then confirm the request shown below."
+                           Foreground="#C5D2E5" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="330"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                    CornerRadius="10" Padding="18" Margin="0,0,14,0">
+                <StackPanel HorizontalAlignment="Center">
+                    <Image x:Name="QrImage" Width="270" Height="270" Stretch="Uniform"/>
+                    <TextBlock x:Name="HostNameText" FontSize="16" FontWeight="SemiBold"
+                               Foreground="#172033" TextAlignment="Center" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="EndpointText" Foreground="{StaticResource MutedBrush}"
+                               TextWrapping="Wrap" TextAlignment="Center" FontSize="12" Margin="0,5,0,0"/>
+                    <TextBlock x:Name="FingerprintText" Foreground="{StaticResource MutedBrush}"
+                               TextWrapping="Wrap" TextAlignment="Center" FontSize="11" Margin="0,8,0,0"/>
+                    <TextBlock x:Name="ExpiryText" Foreground="#9A3412" FontWeight="SemiBold"
+                               TextAlignment="Center" Margin="0,10,0,0"/>
+                    <Button x:Name="CancelInvitationButton" Content="Cancel this pairing code"
+                            HorizontalAlignment="Center" Margin="0,12,0,0"
+                            Click="CancelInvitationButton_Click"/>
+                </StackPanel>
+            </Border>
+
+            <StackPanel Grid.Column="1">
+                <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                        CornerRadius="10" Padding="18" Margin="0,0,0,14">
+                    <StackPanel>
+                        <TextBlock Text="Requests waiting for your confirmation" FontSize="17"
+                                   FontWeight="SemiBold" Foreground="#172033"/>
+                        <TextBlock Text="Only approve a device you recognize. Its public-key fingerprint is shown with the request."
+                                   Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,5,0,12"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="270">
+                            <StackPanel x:Name="PendingRequestsPanel"/>
+                        </ScrollViewer>
+                        <TextBlock x:Name="PendingEmptyText" Text="No pairing requests yet."
+                                   Foreground="{StaticResource MutedBrush}" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1"
+                        CornerRadius="10" Padding="18">
+                    <StackPanel>
+                        <TextBlock Text="Paired devices" FontSize="17" FontWeight="SemiBold" Foreground="#172033"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="190" Margin="0,10,0,0">
+                            <StackPanel x:Name="DevicesPanel"/>
+                        </ScrollViewer>
+                        <TextBlock x:Name="DevicesEmptyText" Text="No Android devices are paired."
+                                   Foreground="{StaticResource MutedBrush}" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+        <Border Grid.Row="2" Background="#E8EDF5" Padding="16,9">
+            <DockPanel>
+                <TextBlock x:Name="PairingStatusText" VerticalAlignment="Center" Foreground="#475569"
+                           Text="Pairing code expires after 60 seconds."/>
+                <Button Content="Close" DockPanel.Dock="Right" HorizontalAlignment="Right"
+                        Click="CloseButton_Click"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

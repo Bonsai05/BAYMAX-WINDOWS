@@ -1,0 +1,33 @@
+<Window x:Class="Baymax.Desktop.PlanEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edit Baymax plan" Height="700" Width="900"
+        MinHeight="500" MinWidth="650"
+        WindowStartupLocation="CenterOwner"
+        Background="#F3F6FB">
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="0,0,0,12">
+            <TextBlock Text="Edit plan" FontSize="21" FontWeight="Bold" Foreground="#15233B"/>
+            <TextBlock Text="Edit the summary and action arguments as JSON. Baymax revalidates the edited plan before approval and execution."
+                       TextWrapping="Wrap" Foreground="#64748B" Margin="0,5,0,0"/>
+        </StackPanel>
+        <TextBox x:Name="PlanJsonTextBox" Grid.Row="1" AcceptsReturn="True" AcceptsTab="True"
+                 TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto"
+                 HorizontalScrollBarVisibility="Auto" FontFamily="Consolas" FontSize="13"
+                 VerticalContentAlignment="Top"/>
+        <DockPanel Grid.Row="2" Margin="0,12,0,0">
+            <TextBlock x:Name="EditorStatusText" VerticalAlignment="Center"
+                       Foreground="#B91C1C" TextWrapping="Wrap"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Cancel" Click="CancelButton_Click"/>
+                <Button Content="Save edited plan" Background="#2563EB" Foreground="White"
+                        BorderBrush="#2563EB" Click="SaveButton_Click"/>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>

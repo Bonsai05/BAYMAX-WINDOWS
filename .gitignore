@@ -1,0 +1,35 @@
+# Keep the Windows Baymax application and its build metadata.
+/*
+!/.gitignore
+!/windows/
+!/windows/**
+
+# Ignore documentation and planning notes.
+*.md
+/Project Report.md
+
+# Ignore generated build output.
+**/bin/
+**/obj/
+**/.vs/
+**/build/
+**/.gradle/
+
+# Ignore tests and test-related files.
+**/test/
+**/tests/
+**/Test/
+**/Tests/
+**/__tests__/
+**/*test*/
+**/*Test*/
+**/TestResults/
+**/*.test.*
+**/*.spec.*
+**/*Test.*
+**/*Tests.*
+**/test*.*
+**/Test*.*
+**/*test.*
+**/*_test.*
+**/*_tests.*
