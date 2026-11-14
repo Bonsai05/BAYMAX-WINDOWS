@@ -1,11 +1,14 @@
 # Keep the Windows Baymax application and its build metadata.
 /*
 !/.gitignore
+!/LICENSE
+!README.md
 !/windows/
 !/windows/**
 
 # Ignore documentation and planning notes.
 *.md
+!README.md
 /Project Report.md
 
 # Ignore generated build output.
